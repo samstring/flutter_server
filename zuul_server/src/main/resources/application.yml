@@ -1,0 +1,52 @@
+
+spring:
+  application:
+    name: zuul_server
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  port: 5300
+
+
+#zuul:
+#  retryable: true
+#  add-host-header: true
+#  sensitive-headers: *
+#  ignored-services: *
+#  routes:
+#    server_video: /video/**
+#    service-user-auth: /user/**
+#  prefix: /api
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8100/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health,info,env
+#zuul:
+#  prefix: /api
+#  retryable: true
+#  add-host-header: true
+#  sensitive-headers: *
+#  ignored-services: *
+#
+zuul:
+  prefix: /api
+#  retryable: true
+#  add-host-header: true
+#  sensitive-headers: *
+#  ignored-services: *
+  routes:
+    server_video: /video/**
+    service-user-auth: /user/**
+
