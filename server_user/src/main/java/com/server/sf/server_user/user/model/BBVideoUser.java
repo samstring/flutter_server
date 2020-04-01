@@ -4,8 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-//@Entity
-//@Table(name = "bb_video_user")
+@Entity
+@Table(name = "bb_video_user")
 @Data
 //@PrimaryKeyJoinColumn(name= "video_user_id")
 public class BBVideoUser extends BBUser{

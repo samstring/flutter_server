@@ -8,12 +8,12 @@ public interface UserServiceInterface <T>{
 	
 	//用户注册
 //	@Transactional
-//	@Transactional
+	@Transactional
 	public T register(T user) throws Exception;
 	
 	//用户登陆
 //	@Transactional(readOnly = true)
-	public T login(T user, int loginMode) throws Exception;
+	public T login(T user, String loginMode) throws Exception;
 	
 //	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public T getUserWithToken(T user) throws Exception;

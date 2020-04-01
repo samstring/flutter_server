@@ -1,4 +1,4 @@
-package com.server.sf.server_user;
+package com.server.sf.server_user.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

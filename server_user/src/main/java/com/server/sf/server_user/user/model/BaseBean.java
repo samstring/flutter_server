@@ -4,6 +4,7 @@ package com.server.sf.server_user.user.model;
 
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,9 +19,12 @@ public class BaseBean implements Comparable<BaseBean>, Serializable {
 //	@Column(name = "id")
 //	private String id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 //	@Column(name = "b_Id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "custom-id")
+	@GenericGenerator(name = "custom-id", strategy = "com.server.sf.server_user.user.model.CustomIDGenerator")
 	private String b_Id;
 	
 	@Version

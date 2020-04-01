@@ -126,7 +126,7 @@ public class UserService<T extends BBUser> extends ServiceImpl<T> implements Use
 	}
 
 	@Override
-	public T login(T user,int loginMode) throws Exception {
+	public T login(T user,String loginMode) throws Exception {
 		// TODO Auto-generated method stub
 		T returnUser = null;
 		try {

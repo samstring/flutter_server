@@ -69,8 +69,14 @@ public class UserController {
 //        return  map;
 //    }
 //
+
+    @RequestMapping("/a/d")
+    public  Map test(){
+        return new HashMap();
+    }
+
     @RequestMapping("/user/login")
-    public Map login(String phoneNumber,String password,int loginMode) throws Exception {
+    public Map login(String phoneNumber,String password,String loginMode) throws Exception {
         Map map = new HashMap();
         BBUser user = new BBUser();
         user.setPhoneNumber(phoneNumber);

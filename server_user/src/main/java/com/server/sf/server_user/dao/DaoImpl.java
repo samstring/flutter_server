@@ -1,8 +1,9 @@
-package com.server.sf.server_user;
+package com.server.sf.server_user.dao;
 
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +11,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 
@@ -28,7 +31,9 @@ public class DaoImpl<T>  implements IDao<T> {
 	
 	public void create(T baseBean) throws Exception {
 		try {
-			this.getSessionFactory().getCurrentSession().save(baseBean);
+//			this.entityManagerFactory.sa
+
+			getSession().save(baseBean);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,7 +44,7 @@ public class DaoImpl<T>  implements IDao<T> {
 	@Override
 	public void clearCaChe() throws Exception{
 		try {
-			getSessionFactory().getCurrentSession().clear();
+			getSession().clear();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,7 +55,7 @@ public class DaoImpl<T>  implements IDao<T> {
 	public Query createQuery(String hql) throws Exception {
 		Query q = null;
 		try {
-			q = getSessionFactory().getCurrentSession().createQuery(hql);
+			q = getSession().createQuery(hql);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -63,7 +68,7 @@ public class DaoImpl<T>  implements IDao<T> {
 	public SQLQuery createSqlQuery(String sql) throws Exception {
 		SQLQuery q = null;
 		try {
-			q = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+			q = getSession().createSQLQuery(sql);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,7 +79,7 @@ public class DaoImpl<T>  implements IDao<T> {
 
 	public void delete(T baseBean) throws Exception {
 		try {
-			getSessionFactory().getCurrentSession().delete(baseBean);
+			getSession().delete(baseBean);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -87,7 +92,7 @@ public class DaoImpl<T>  implements IDao<T> {
 	public int getTotalCount(String hql, Object... params) throws Exception {
 		int j = 0;
 		try {
-			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+			Query query = getSession().createQuery(hql);
 			for (int i = 0; params != null && i < params.length; i++)
 				query.setParameter(i + 1, params[i]);
 			Object obj = createQuery(hql).uniqueResult();
@@ -104,7 +109,7 @@ public class DaoImpl<T>  implements IDao<T> {
 	public List<T> list(String hql) throws Exception {
 		List<T> list = null;
 		try {
-			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+			Query query = getSession().createQuery(hql);
 			list = (List<T>) query.list();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -119,7 +124,7 @@ public class DaoImpl<T>  implements IDao<T> {
 			Object... params) throws Exception {
 		List<T> list = null;
 		try {
-			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+			Query query = getSession().createQuery(hql);
 			for (int i = 0; params != null && i < params.length; i++) {
 				query.setParameter(i + 1, params[i]);
 			}
@@ -135,7 +140,7 @@ public class DaoImpl<T>  implements IDao<T> {
 
 	public T save(T baseBean)  throws Exception{
 		try {
-			getSessionFactory().getCurrentSession().save(baseBean);
+			getSession().save(baseBean);
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 
@@ -150,8 +155,8 @@ public class DaoImpl<T>  implements IDao<T> {
 	public T update(T baseBean)  throws Exception{
 		try {
 //			sessionFactory.openSession().update(sessionFactory.openSession().merge(baseBean));
-			getSessionFactory().getCurrentSession().merge(baseBean);
-			getSessionFactory().getCurrentSession().clear();
+			getSession().merge(baseBean);
+			getSession().clear();
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 //			sessionFactory.getCurrentSession().close();
@@ -169,7 +174,7 @@ public class DaoImpl<T>  implements IDao<T> {
 		// TODO Auto-generated method stub
 		T t = null;
 		try {
-			t = (T) getSessionFactory().openSession().get(clazz, id);
+			t = (T) getSession().get(clazz, id);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -182,7 +187,8 @@ public class DaoImpl<T>  implements IDao<T> {
 
 	public SessionFactory getSessionFactory() {
 		if (sessionFactory == null){
-			sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
+//			sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
+			sessionFactory = getSession().getSessionFactory();
 		}
 		return sessionFactory;
 	}
@@ -190,4 +196,13 @@ public class DaoImpl<T>  implements IDao<T> {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+
+
+	@PersistenceContext
+	protected EntityManager entityManager;
+
+	protected Session getSession() {
+		return entityManager.unwrap(Session.class);
+	}
+
 }

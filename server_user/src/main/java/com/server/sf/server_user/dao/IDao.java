@@ -1,4 +1,4 @@
-package com.server.sf.server_user;
+package com.server.sf.server_user.dao;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;

@@ -1,6 +1,6 @@
 package com.server.sf.server_user.base.service;
 
-import com.server.sf.server_user.IDao;
+import com.server.sf.server_user.dao.IDao;
 import com.server.sf.server_user.user.model.BaseBean;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
