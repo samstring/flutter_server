@@ -4,10 +4,12 @@ package com.server.sf.server_user.user.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "bb_role")
+@Table(name = "server_role")
 @Data
 public class BBRole extends BaseBean{
 

@@ -1,15 +1,13 @@
 package com.server.sf.server_user.user.model;
 
 
-
-
-
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "b_token")
+@Table(name = "server_token")
 @Data
 public class BBToken extends BaseBean {
 

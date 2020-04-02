@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "bb_user")
+@Table(name = "server_user")
 @Inheritance(strategy=InheritanceType.JOINED)
 @Data
 public class BBUser  extends BaseBean{
@@ -29,8 +29,8 @@ public class BBUser  extends BaseBean{
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL,targetEntity = BBToken.class)
 	private BBToken bbToken;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "b_Id"))
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,targetEntity = BBRole.class)
+	@JoinTable(name = "server_user_role", joinColumns = @JoinColumn(name = "user_id"))
 	private List<BBRole> authorities;
 
 

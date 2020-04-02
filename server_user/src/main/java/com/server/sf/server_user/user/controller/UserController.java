@@ -99,7 +99,7 @@ public class UserController {
 
             }else{
 //                    BBVideoUser mUser ;//= new BBVideoUser();
-                mUser = userService.register(user);
+                 mUser = userService.register(user);
 //				isRegisterDone = true;
                 map.put("resultCode",  "200");
                 map.put("result",mUser);

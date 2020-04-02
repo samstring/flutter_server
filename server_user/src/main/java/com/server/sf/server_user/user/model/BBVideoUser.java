@@ -2,10 +2,12 @@ package com.server.sf.server_user.user.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "bb_video_user")
+@Table(name = "server_video_user")
 @Data
 //@PrimaryKeyJoinColumn(name= "video_user_id")
 public class BBVideoUser extends BBUser{
@@ -15,10 +17,10 @@ public class BBVideoUser extends BBUser{
     private int videoCount;
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "b_Id")
-    private String b_Id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@Column(name = "b_Id")
+//    private String b_Id;
 
     @Column(unique = true)
     private String inviteString;
