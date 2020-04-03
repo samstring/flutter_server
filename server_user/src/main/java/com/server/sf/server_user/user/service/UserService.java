@@ -19,6 +19,50 @@ import java.util.List;
 public class UserService<T extends BBUser> extends ServiceImpl<T> implements UserServiceInterface<T> {
 
 	@Override
+	public T getUserAllInfo(String phone) throws Exception{
+		BBUser user = new BBUser();
+		user.setPhoneNumber(phone);
+		// TODO Auto-generated method stub
+		T returnUser = null;
+		try {
+			Query query = this.getDao().createQuery("from "+user.getClass().getName()+" u where u.phoneNumber = :phoneNumber");
+			query.setParameter("phoneNumber", phone);
+
+			List<T> list = query.list();
+			if ( list.size() > 0) {
+				T mUser =  (T)list.get(0);
+				returnUser = (T) user.getClass().newInstance();
+				returnUser.setAddress(mUser.getAddress());
+				returnUser.setAvatarImage(mUser.getAvatarImage());
+				returnUser.setUserBackgroundImage(mUser.getUserBackgroundImage());
+				returnUser.setCountryCode(mUser.getCountryCode());
+				returnUser.setEmail(mUser.getEmail());
+				returnUser.setName(mUser.getName());
+				returnUser.setB_Id(mUser.getB_Id());
+				returnUser.setPhoneNumber(mUser.getPhoneNumber());
+				returnUser.setUserDesc(mUser.getUserDesc());
+				returnUser.setUserDetailDesc(mUser.getUserDetailDesc());
+				returnUser.setPassword(mUser.getPassword());
+//			returnUser.setBangId(mUser.getBangId());
+//			returnUser.setBbToken(mUser.getBbToken());
+//			returnUser.setFansCount(mUser.getFansCount());
+//			returnUser.setFollowCount(mUser.getFollowCount());
+//			returnUser.setLikeCount(mUser.getLikeCount());
+
+			}else{
+
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+			throw e;
+		}
+		return returnUser;
+
+	}
+
+	@Override
 	public T register(T user) throws Exception {
 		// TODO Auto-generated method stub
 

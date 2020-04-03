@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
  * @author Administrator
  * @version 1.0
  **/
-//@Configuration
+@Configuration
 public class TokenConfig {
 
     private String SIGNING_KEY = "uaa123";

@@ -5,7 +5,9 @@ import java.util.List;
 
 public interface UserServiceInterface <T>{
 	
-	
+
+	@Transactional
+	public  T getUserAllInfo(String phone) throws Exception;
 	//用户注册
 //	@Transactional
 	@Transactional
