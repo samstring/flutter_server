@@ -1,17 +1,17 @@
 package com.server.sf.server_user.user.model;
 
 
-import lombok.Data;
+import com.server.sf.server_user.common.model.BaseBean;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "server_user")
 @Inheritance(strategy=InheritanceType.JOINED)
-public class BBUser  extends BaseBean{
+public class BBUser  extends BaseBean {
 
 	@Getter
 	@Setter
@@ -51,9 +51,9 @@ public class BBUser  extends BaseBean{
 	private BBToken bbToken;
 	@Getter
 	@Setter
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,targetEntity = BBRole.class)
+	@ManyToMany(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER,targetEntity = BBRole.class)
 	@JoinTable(name = "server_user_role", joinColumns = @JoinColumn(name = "user_id"))
-	private List<BBRole> authorities;
+	private Set<BBRole> roles;
 
 
 	@Getter

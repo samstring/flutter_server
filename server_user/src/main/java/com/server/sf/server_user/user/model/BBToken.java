@@ -1,6 +1,7 @@
 package com.server.sf.server_user.user.model;
 
 
+import com.server.sf.server_user.common.model.BaseBean;
 import lombok.Data;
 
 import javax.persistence.Entity;

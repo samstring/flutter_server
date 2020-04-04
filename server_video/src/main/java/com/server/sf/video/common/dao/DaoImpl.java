@@ -1,4 +1,4 @@
-package com.server.sf.server_user.dao;
+package com.server.sf.video.common.dao;
 
 
 import org.hibernate.Query;
@@ -10,12 +10,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-
 
 
 @Configuration

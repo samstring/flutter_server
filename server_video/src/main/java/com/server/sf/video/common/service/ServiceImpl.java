@@ -1,7 +1,8 @@
-package com.server.sf.server_user.base.service;
+package com.server.sf.video.common.service;
 
-import com.server.sf.server_user.dao.IDao;
-import com.server.sf.server_user.user.model.BaseBean;
+import com.server.sf.video.common.dao.IDao;
+
+import com.server.sf.video.common.model.BaseBean;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 

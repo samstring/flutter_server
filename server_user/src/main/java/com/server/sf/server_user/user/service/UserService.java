@@ -1,7 +1,7 @@
 package com.server.sf.server_user.user.service;
 
 import com.server.sf.server_user.user.model.BBUser;
-import com.server.sf.server_user.base.service.ServiceImpl;
+import com.server.sf.server_user.common.service.ServiceImpl;
 import com.server.sf.server_user.tool.CharacterUtils;
 import com.server.sf.server_user.tool.JWTUntil;
 import com.server.sf.server_user.tool.MD5Util;

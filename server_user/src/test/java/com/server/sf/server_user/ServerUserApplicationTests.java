@@ -13,7 +13,7 @@ class ServerUserApplicationTests {
 
     @Test
     void contextLoads() {
-        String password = new BCryptPasswordEncoder().encode("123");
+        String password =new BCryptPasswordEncoder().encode("secret");
      System.out.println("-------"+password);
     }
 

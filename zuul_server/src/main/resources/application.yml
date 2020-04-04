@@ -48,5 +48,5 @@ zuul:
 #  ignored-services: *
   routes:
     server_video: /video/**
-    service-user-auth: /user/**
+    server_user: /user/**
 

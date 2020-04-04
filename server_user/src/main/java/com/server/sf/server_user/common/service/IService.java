@@ -1,4 +1,4 @@
-package com.server.sf.server_user.base.service;
+package com.server.sf.server_user.common.service;
 
 import java.util.List;
 

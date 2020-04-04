@@ -1,4 +1,4 @@
-package com.server.sf.server_user.user.model;
+package com.server.sf.server_user.common.model;
 
 
 
@@ -14,17 +14,9 @@ import java.util.Date;
 @MappedSuperclass
 public class BaseBean implements Comparable<BaseBean>, Serializable {
 
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@Column(name = "id")
-//	private String id;
-
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@Column(name = "b_Id")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "custom-id")
-	@GenericGenerator(name = "custom-id", strategy = "com.server.sf.server_user.user.model.CustomIDGenerator")
+	@GenericGenerator(name = "custom-id", strategy = "com.server.sf.server_user.common.tool.CustomIDGenerator")
 	private String b_Id;
 	
 	@Version

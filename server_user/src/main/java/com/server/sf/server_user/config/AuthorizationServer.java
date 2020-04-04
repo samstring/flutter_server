@@ -56,7 +56,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     @Bean
     public ClientDetailsService clientDetailsService(DataSource dataSource) {
         ClientDetailsService clientDetailsService = new JdbcClientDetailsService(dataSource);
-        ((JdbcClientDetailsService) clientDetailsService).setPasswordEncoder(passwordEncoder);
+//        ((JdbcClientDetailsService) clientDetailsService).setPasswordEncoder(passwordEncoder);
         return clientDetailsService;
     }
 
@@ -66,8 +66,8 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
             throws Exception {
         clients.withClientDetails(clientDetailsService);
 //        clients.inMemory()
-//                .withClient("c1")// client_id
-//                .secret(new BCryptPasswordEncoder().encode("secret"))//客户端密钥
+//                .withClient("sever_1")// client_id
+//                .secret(passwordEncoder.encode("secret"))//客户端密钥
 //                .resourceIds("res1")//资源列表
 //                .authorizedGrantTypes("authorization_code", "password","client_credentials","implicit","refresh_token")// 该client允许的授权类型authorization_code,password,refresh_token,implicit,client_credentials
 //                .scopes("all")// 允许的授权范围

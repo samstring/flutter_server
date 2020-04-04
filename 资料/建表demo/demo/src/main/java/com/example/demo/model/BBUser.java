@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "server_user")
@@ -29,9 +30,8 @@ public class BBUser  extends BaseBean{
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL,targetEntity = BBToken.class)
 	private BBToken bbToken;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,targetEntity = BBRole.class)
-	@JoinTable(name = "server_user_role", joinColumns = @JoinColumn(name = "user_id"))
-	private List<BBRole> authorities;
+	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER,targetEntity = BBRole.class)
+	private Set<BBRole> roles;
 
 
 

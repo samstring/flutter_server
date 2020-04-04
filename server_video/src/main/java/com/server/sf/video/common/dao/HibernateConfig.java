@@ -1,4 +1,4 @@
-package com.server.sf.server_user.dao;
+package com.server.sf.video.common.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,8 +11,6 @@ import java.util.Properties;
 @Configuration
 public class HibernateConfig {
 
-//    @Value("spring.jpa.properties.hibernate.current_session_context_class")
-//    public String current_session_context_class;
     @Autowired
     private DataSource dataSource;
 

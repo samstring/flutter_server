@@ -1,4 +1,4 @@
-package com.server.sf.server_user.user.model;
+package com.server.sf.video.common.tool;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;

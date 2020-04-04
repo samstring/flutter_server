@@ -16,215 +16,133 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `ClientDetails`
+-- Dumping data for table `oauth_access_token`
 --
 
-DROP TABLE IF EXISTS `ClientDetails`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `ClientDetails` (
-  `appId` varchar(256) NOT NULL,
-  `resourceIds` varchar(256) DEFAULT NULL,
-  `appSecret` varchar(256) DEFAULT NULL,
-  `scope` varchar(256) DEFAULT NULL,
-  `grantTypes` varchar(256) DEFAULT NULL,
-  `redirectUrl` varchar(256) DEFAULT NULL,
-  `authorities` varchar(256) DEFAULT NULL,
-  `access_token_validity` int(11) DEFAULT NULL,
-  `refresh_token_validity` int(11) DEFAULT NULL,
-  `additionalInformation` varchar(4096) DEFAULT NULL,
-  `autoApproveScopes` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`appId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `oauth_access_token` WRITE;
+/*!40000 ALTER TABLE `oauth_access_token` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oauth_access_token` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `oauth_access_token`
+-- Dumping data for table `oauth_approvals`
 --
 
-DROP TABLE IF EXISTS `oauth_access_token`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `oauth_access_token` (
-  `token_id` varchar(256) DEFAULT NULL,
-  `token` varbinary(2048) DEFAULT NULL,
-  `authentication_id` varchar(256) NOT NULL,
-  `user_name` varchar(256) DEFAULT NULL,
-  `client_id` varchar(256) DEFAULT NULL,
-  `authentication` varbinary(2048) DEFAULT NULL,
-  `refresh_token` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`authentication_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `oauth_approvals` WRITE;
+/*!40000 ALTER TABLE `oauth_approvals` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oauth_approvals` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `oauth_approvals`
+-- Dumping data for table `oauth_client_details`
 --
 
-DROP TABLE IF EXISTS `oauth_approvals`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `oauth_approvals` (
-  `userId` varchar(256) DEFAULT NULL,
-  `clientId` varchar(256) DEFAULT NULL,
-  `scope` varchar(256) DEFAULT NULL,
-  `status` varchar(10) DEFAULT NULL,
-  `expiresAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `lastModifiedAt` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `oauth_client_details` WRITE;
+/*!40000 ALTER TABLE `oauth_client_details` DISABLE KEYS */;
+INSERT INTO `oauth_client_details` VALUES ('sever_video',NULL,'$2a$10$myRSxdIA3n6iuiPXy4hQVe6M33.dAK6RGA6827nBcZJUTHs.D4Eam','all','password','www.baidu.com','',NULL,NULL,NULL,'false');
+/*!40000 ALTER TABLE `oauth_client_details` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `oauth_client_details`
+-- Dumping data for table `oauth_client_token`
 --
 
-DROP TABLE IF EXISTS `oauth_client_details`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `oauth_client_details` (
-  `client_id` varchar(256) NOT NULL,
-  `resource_ids` varchar(256) DEFAULT NULL,
-  `client_secret` varchar(256) DEFAULT NULL,
-  `scope` varchar(256) DEFAULT NULL,
-  `authorized_grant_types` varchar(256) DEFAULT NULL,
-  `web_server_redirect_uri` varchar(256) DEFAULT NULL,
-  `authorities` varchar(256) DEFAULT NULL,
-  `access_token_validity` int(11) DEFAULT NULL,
-  `refresh_token_validity` int(11) DEFAULT NULL,
-  `additional_information` varchar(4096) DEFAULT NULL,
-  `autoapprove` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `oauth_client_token` WRITE;
+/*!40000 ALTER TABLE `oauth_client_token` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oauth_client_token` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `oauth_client_token`
+-- Dumping data for table `oauth_code`
 --
 
-DROP TABLE IF EXISTS `oauth_client_token`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `oauth_client_token` (
-  `token_id` varchar(256) DEFAULT NULL,
-  `token` varbinary(2048) DEFAULT NULL,
-  `authentication_id` varchar(256) NOT NULL,
-  `user_name` varchar(256) DEFAULT NULL,
-  `client_id` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`authentication_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `oauth_code` WRITE;
+/*!40000 ALTER TABLE `oauth_code` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oauth_code` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `oauth_code`
+-- Dumping data for table `oauth_refresh_token`
 --
 
-DROP TABLE IF EXISTS `oauth_code`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `oauth_code` (
-  `code` varchar(256) DEFAULT NULL,
-  `authentication` varbinary(2048) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `oauth_refresh_token` WRITE;
+/*!40000 ALTER TABLE `oauth_refresh_token` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oauth_refresh_token` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `oauth_refresh_token`
+-- Dumping data for table `server_authority`
 --
 
-DROP TABLE IF EXISTS `oauth_refresh_token`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `oauth_refresh_token` (
-  `token_id` varchar(256) DEFAULT NULL,
-  `token` varbinary(2048) DEFAULT NULL,
-  `authentication` varbinary(2048) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `server_authority` WRITE;
+/*!40000 ALTER TABLE `server_authority` DISABLE KEYS */;
+/*!40000 ALTER TABLE `server_authority` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `server_role`
+-- Dumping data for table `server_role`
 --
 
-DROP TABLE IF EXISTS `server_role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `server_role` (
-  `b_id` varchar(255) NOT NULL,
-  `date_created` datetime(6) DEFAULT NULL,
-  `deleted` bit(1) NOT NULL,
-  `version` int(11) DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`b_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `server_role` WRITE;
+/*!40000 ALTER TABLE `server_role` DISABLE KEYS */;
+/*!40000 ALTER TABLE `server_role` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `server_token`
+-- Dumping data for table `server_role_authorises`
 --
 
-DROP TABLE IF EXISTS `server_token`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `server_token` (
-  `b_id` varchar(255) NOT NULL,
-  `date_created` datetime(6) DEFAULT NULL,
-  `deleted` bit(1) NOT NULL,
-  `version` int(11) DEFAULT NULL,
-  `b_token_string` varchar(255) DEFAULT NULL,
-  `b_upload_string` varchar(255) DEFAULT NULL,
-  `chat_token_string` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`b_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `server_role_authorises` WRITE;
+/*!40000 ALTER TABLE `server_role_authorises` DISABLE KEYS */;
+/*!40000 ALTER TABLE `server_role_authorises` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `server_user`
+-- Dumping data for table `server_token`
 --
 
-DROP TABLE IF EXISTS `server_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `server_user` (
-  `b_id` varchar(255) NOT NULL,
-  `date_created` datetime(6) DEFAULT NULL,
-  `deleted` bit(1) NOT NULL,
-  `version` int(11) DEFAULT NULL,
-  `country_code` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `avatar_image` varchar(255) DEFAULT NULL,
-  `city` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `is_login` bit(1) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `phone_number` varchar(255) DEFAULT NULL,
-  `user_background_image` varchar(255) DEFAULT NULL,
-  `user_desc` varchar(255) DEFAULT NULL,
-  `user_detail_desc` varchar(3000) DEFAULT NULL,
-  `bb_token_b_id` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`b_id`),
-  UNIQUE KEY `UK_e7h42eu38ewai0v1dflcewj5d` (`phone_number`),
-  KEY `FKjxxvfcp9l8rouijuv76wye2us` (`bb_token_b_id`),
-  CONSTRAINT `FKjxxvfcp9l8rouijuv76wye2us` FOREIGN KEY (`bb_token_b_id`) REFERENCES `server_token` (`b_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `server_token` WRITE;
+/*!40000 ALTER TABLE `server_token` DISABLE KEYS */;
+INSERT INTO `server_token` VALUES ('309933779718307840',NULL,_binary '\0',0,'309933779663781888d41d8cd98f00b204e9800998ecf8427e',NULL,NULL),('309935820956041216',NULL,_binary '\0',0,'309935820914098176d41d8cd98f00b204e9800998ecf8427e',NULL,NULL),('309950864041246720',NULL,_binary '\0',0,'309950864032858112d41d8cd98f00b204e9800998ecf8427e',NULL,NULL),('310191102999199744',NULL,_binary '\0',0,'310191102936285184d41d8cd98f00b204e9800998ecf8427e',NULL,NULL),('310217871311568896',NULL,_binary '\0',0,'310217871269625856d41d8cd98f00b204e9800998ecf8427e',NULL,NULL),('310258031642345472',NULL,_binary '\0',0,'310258031579430912d41d8cd98f00b204e9800998ecf8427e',NULL,NULL),('310302122711252992',NULL,_binary '\0',0,'310302122665115648d41d8cd98f00b204e9800998ecf8427e',NULL,NULL),('310544188741582848',NULL,_binary '\0',0,'310544188645113856d41d8cd98f00b204e9800998ecf8427e',NULL,NULL),('310598753818050560',NULL,_binary '\0',0,'310598753771913216d41d8cd98f00b204e9800998ecf8427e',NULL,NULL);
+/*!40000 ALTER TABLE `server_token` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `server_user_role`
+-- Dumping data for table `server_user`
 --
 
-DROP TABLE IF EXISTS `server_user_role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `server_user_role` (
-  `user_id` varchar(255) NOT NULL,
-  `authorities_b_id` varchar(255) NOT NULL,
-  KEY `FK2iekf7cie6fu2x5w2o95974ls` (`authorities_b_id`),
-  KEY `FKmewy8cfepatom48dche2sgrp5` (`user_id`),
-  CONSTRAINT `FK2iekf7cie6fu2x5w2o95974ls` FOREIGN KEY (`authorities_b_id`) REFERENCES `server_role` (`b_id`),
-  CONSTRAINT `FKmewy8cfepatom48dche2sgrp5` FOREIGN KEY (`user_id`) REFERENCES `server_user` (`b_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `server_user` WRITE;
+/*!40000 ALTER TABLE `server_user` DISABLE KEYS */;
+INSERT INTO `server_user` VALUES ('309933779663781888',NULL,_binary '\0',1,NULL,NULL,'http://47.105.188.234:8080/FlutterDemo_war//image/avatar_holder.png',NULL,NULL,_binary '\0','fUAgEFfu',NULL,NULL,NULL,NULL,NULL,'309933779718307840'),('309935820914098176',NULL,_binary '\0',1,NULL,NULL,'http://47.105.188.234:8080/FlutterDemo_war//image/avatar_holder.png',NULL,NULL,_binary '\0','wLWtks0p',NULL,NULL,NULL,NULL,NULL,'309935820956041216'),('309950864032858112',NULL,_binary '\0',1,NULL,NULL,'http://47.105.188.234:8080/FlutterDemo_war//image/avatar_holder.png',NULL,NULL,_binary '\0','zs1KB5eW',NULL,NULL,NULL,NULL,NULL,'309950864041246720'),('310191102936285184',NULL,_binary '\0',1,NULL,NULL,'http://47.105.188.234:8080/FlutterDemo_war//image/avatar_holder.png',NULL,NULL,_binary '\0','H2UjsgiQ',NULL,NULL,NULL,NULL,NULL,'310191102999199744'),('310217871269625856',NULL,_binary '\0',1,NULL,NULL,'http://47.105.188.234:8080/FlutterDemo_war//image/avatar_holder.png',NULL,NULL,_binary '\0','vT2OI2r0',NULL,NULL,NULL,NULL,NULL,'310217871311568896'),('310258031579430912',NULL,_binary '\0',1,NULL,NULL,'http://47.105.188.234:8080/FlutterDemo_war//image/avatar_holder.png',NULL,NULL,_binary '\0','JlpRnLQn','{bcrypt}$2a$10$myRSxdIA3n6iuiPXy4hQVe6M33.dAK6RGA6827nBcZJUTHs.D4Eam','131',NULL,NULL,NULL,'310258031642345472'),('310302122665115648',NULL,_binary '\0',1,NULL,NULL,'http://47.105.188.234:8080/FlutterDemo_war//image/avatar_holder.png',NULL,NULL,_binary '\0','zQSCvG44',NULL,NULL,NULL,NULL,NULL,'310302122711252992'),('310544188645113856',NULL,_binary '\0',1,NULL,NULL,'http://47.105.188.234:8080/FlutterDemo_war//image/avatar_holder.png',NULL,NULL,_binary '\0','53LgSP8j',NULL,NULL,NULL,NULL,NULL,'310544188741582848'),('310598753771913216',NULL,_binary '\0',1,NULL,NULL,'http://47.105.188.234:8080/FlutterDemo_war//image/avatar_holder.png',NULL,NULL,_binary '\0','KVHS98ys',NULL,NULL,NULL,NULL,NULL,'310598753818050560');
+/*!40000 ALTER TABLE `server_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `server_user_role`
+--
+
+LOCK TABLES `server_user_role` WRITE;
+/*!40000 ALTER TABLE `server_user_role` DISABLE KEYS */;
+/*!40000 ALTER TABLE `server_user_role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `server_user_roles`
+--
+
+LOCK TABLES `server_user_roles` WRITE;
+/*!40000 ALTER TABLE `server_user_roles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `server_user_roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `server_video_user`
+--
+
+LOCK TABLES `server_video_user` WRITE;
+/*!40000 ALTER TABLE `server_video_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `server_video_user` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -235,4 +153,4 @@ CREATE TABLE `server_user_role` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-03  0:19:42
+-- Dump completed on 2020-04-04 20:38:52

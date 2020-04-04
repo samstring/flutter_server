@@ -4,34 +4,22 @@ package com.example.demo.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "server_role")
 @Data
-public class BBRole extends BaseBean{
+public class BBRole extends BaseBean  {
 
     @Column(nullable = false)
     private String name;
 
-
+    @ManyToMany(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER,targetEntity = BBAuthority.class)
+    private Set<BBAuthority> authorises;
 
     public void setName(String name) {
         this.name = name;
     }
 
-//    @Override
-//    public String getAuthority() {
-//        return name;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Role{" +
-//                "id=" + getB_Id() +
-//                ", name='" + name + '\'' +
-//                '}';
-//    }
 }

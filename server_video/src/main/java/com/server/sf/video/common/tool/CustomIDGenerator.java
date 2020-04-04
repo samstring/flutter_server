@@ -1,13 +1,15 @@
-package com.server.sf.server_user.user.model;
+package com.server.sf.video.common.tool;
 
 
 //import com.muyuer.springdemo.utils.SnowflakeIdHelper;
+
 import org.hibernate.MappingException;
 import org.hibernate.engine.spi.SessionImplementor;
-//import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.UUIDGenerator;
 
 import java.io.Serializable;
+
+//import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
 /**
  * 自定义ID生成器

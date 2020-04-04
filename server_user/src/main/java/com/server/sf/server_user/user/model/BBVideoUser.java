@@ -1,5 +1,6 @@
 package com.server.sf.server_user.user.model;
 
+import com.server.sf.server_user.user.model.BBUser;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -10,7 +11,7 @@ import javax.persistence.Table;
 @Table(name = "server_video_user")
 @Data
 //@PrimaryKeyJoinColumn(name= "video_user_id")
-public class BBVideoUser extends BBUser{
+public class BBVideoUser extends BBUser {
     private int likeCount;
     private int fansCount;
     private int followCount;

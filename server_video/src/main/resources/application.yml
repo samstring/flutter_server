@@ -11,6 +11,19 @@ spring:
     application:
         name: server_video
 
+    jpa:
+        properties:
+            hibernate:
+                current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+
+
+    datasource:
+        url: jdbc:mysql://localhost:3306/server_video
+        username: root
+        password: deng05
+        driver-class-name: com.mysql.cj.jdbc.Driver
+
+
 #security:
 #    oauth2:
 #        resource:
