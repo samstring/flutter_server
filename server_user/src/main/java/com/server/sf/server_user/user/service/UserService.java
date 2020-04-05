@@ -1,22 +1,28 @@
 package com.server.sf.server_user.user.service;
 
+import com.server.sf.server_user.common.tool.OauthConstantTool;
+import com.server.sf.server_user.tool.*;
+import com.server.sf.server_user.user.model.BBAuthority;
+import com.server.sf.server_user.user.model.BBRole;
 import com.server.sf.server_user.user.model.BBUser;
 import com.server.sf.server_user.common.service.ServiceImpl;
-import com.server.sf.server_user.tool.CharacterUtils;
-import com.server.sf.server_user.tool.JWTUntil;
-import com.server.sf.server_user.tool.MD5Util;
-import com.server.sf.server_user.tool.NetAdressTool;
 import com.server.sf.server_user.user.model.BBToken;
 import org.hibernate.CacheMode;
 import org.hibernate.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 
 @Service
 public class UserService<T extends BBUser> extends ServiceImpl<T> implements UserServiceInterface<T> {
+
+	@Autowired
+	RedisService redisService;
+
 
 	@Override
 	public T getUserAllInfo(String phone) throws Exception{
@@ -65,12 +71,7 @@ public class UserService<T extends BBUser> extends ServiceImpl<T> implements Use
 	@Override
 	public T register(T user) throws Exception {
 		// TODO Auto-generated method stub
-
-
-
 		T  t = null;
-
-
 		try {
 			if ( checkUserIdExitWithPhoneNumber(((T)user).getPhoneNumber())) {
 				throw new Exception("101");
@@ -83,6 +84,21 @@ public class UserService<T extends BBUser> extends ServiceImpl<T> implements Use
 			if( user.getAvatarImage() == null || user.getAvatarImage().isEmpty()){
 				user.setAvatarImage(userInitAvatarImage);
 			}
+
+			//注册用户默认有用户权限
+			BBRole userRole = null;
+			Query query = this.getDao().createQuery("from BBRole as a where a.name = :name");
+			query.setParameter("name", OauthConstantTool.Role_User);
+			List roleList = query.list();
+			if(roleList.size() > 0){
+				userRole = (BBRole) roleList.get(0);
+			}
+			user.setRoles(new HashSet<>());
+			if(userRole != null){
+				user.getRoles().add(userRole);
+			}
+
+
 			t = this.getDao().save((T)user);
 //			RongCloud rongCloud = RongCloud.getInstance(RongYunTool.RONGYUNKEY,
 //					RongYunTool.RONGYUNPASSWORD);
@@ -191,6 +207,7 @@ public class UserService<T extends BBUser> extends ServiceImpl<T> implements Use
 			returnUser.setPhoneNumber(mUser.getPhoneNumber());
 			returnUser.setUserDesc(mUser.getUserDesc());
 			returnUser.setUserDetailDesc(mUser.getUserDetailDesc());
+			returnUser.setRoles(mUser.getRoles());
 //			returnUser.setBangId(mUser.getBangId());
 //			returnUser.setBbToken(mUser.getBbToken());
 //			returnUser.setFansCount(mUser.getFansCount());
@@ -209,65 +226,13 @@ public class UserService<T extends BBUser> extends ServiceImpl<T> implements Use
 		return returnUser;
 	}
 
-	@Override
-	public T getUserWithToken(T user) throws Exception {
-		// TODO Auto-generated method stub
-		T returnUser = null;
-		try {
-//			System.out.println("1----------");
-			System.out.println(user.getB_Id()+user.getBbToken().getB_tokenString());
-			this.getDao().clearCaChe();
-		Query query = this.getDao().createQuery("from "+user.getClass().getName()+" u where u.b_Id = :b_Id and u.bbToken.b_tokenString = :validateString");
-		query.setParameter("b_Id", user.getB_Id());
-		query.setParameter("validateString",user.getBbToken().getB_tokenString());
-		List<T> list = query.list();
-		System.out.println("2----------");
-		if ( list.size() > 0) {
-			T mUser =  (T)list.get(0);
-			returnUser = (T) user.getClass().newInstance();
-			returnUser.setAddress(mUser.getAddress());
-			returnUser.setAvatarImage(mUser.getAvatarImage());
-			returnUser.setUserBackgroundImage(mUser.getUserBackgroundImage());
-			returnUser.setCountryCode(mUser.getCountryCode());
-			returnUser.setEmail(mUser.getEmail());
-			returnUser.setName(mUser.getName());
-			returnUser.setPhoneNumber(mUser.getPhoneNumber());
-			returnUser.setUserDesc(mUser.getUserDesc());
-			returnUser.setUserDetailDesc(mUser.getUserDetailDesc());
-			returnUser.setBbToken(mUser.getBbToken());
-			returnUser.setB_Id(mUser.getB_Id());
-//			returnUser.setBangId(mUser.getBangId());
-//
-//
-//			returnUser.setFansCount(mUser.getFansCount());
-//			returnUser.setVideoCount(mUser.getVideoCount());
-//			returnUser.setFollowCount(mUser.getFollowCount());
-//			returnUser.setLikeCount(mUser.getLikeCount());
-
-
-			System.out.println("3----------");
-		}else{
-			throw new Exception("102");
-		}
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			throw e;
-		}
-		return returnUser;
-	}
-
-
 //	@Override
 	public T getUserInfo(T user) throws Exception{
 		T returnUser = null;
 		try {
-//			System.out.println("1----------");
-//			System.out.println(user.getB_Id()+user.getValidateString());
 		Query query = this.getDao().createQuery("from "+user.getClass().getName()+" u where u.b_Id = :b_Id").setCacheMode(CacheMode.IGNORE);
 		query.setParameter("b_Id", user.getB_Id());
 		List<T> list = query.list();
-		System.out.println("2----------");
 		if ( list.size() > 0) {
 			T mUser =  (T)list.get(0);
 			returnUser = (T) user.getClass().newInstance();
@@ -280,13 +245,6 @@ public class UserService<T extends BBUser> extends ServiceImpl<T> implements Use
 			returnUser.setPhoneNumber(mUser.getPhoneNumber());
 			returnUser.setUserDesc(mUser.getUserDesc());
 			returnUser.setUserDetailDesc(mUser.getUserDetailDesc());
-//			returnUser.setBangId(mUser.getBangId());
-//			returnUser.setBbToken(mUser.getBbToken());
-//			returnUser.setId(mUser.getId());
-//			returnUser.setFansCount(mUser.getFansCount());
-//			returnUser.setFollowCount(mUser.getFollowCount());
-//			returnUser.setLikeCount(mUser.getLikeCount());
-			System.out.println("3----------");
 		}else{
 			throw new Exception("102");
 		}
@@ -320,11 +278,6 @@ public class UserService<T extends BBUser> extends ServiceImpl<T> implements Use
 				returnUser.setName(mUser.getName());
 				returnUser.setPhoneNumber(mUser.getPhoneNumber());
 				returnUser.setUserDesc(mUser.getUserDesc());
-
-
-//				returnUser.setFansCount(mUser.getFansCount());
-//				returnUser.setFollowCount(mUser.getFollowCount());
-//				returnUser.setLikeCount(mUser.getLikeCount());
 
 				System.out.println("4----------"+user.getB_Id());
 			}else{
@@ -362,11 +315,6 @@ public class UserService<T extends BBUser> extends ServiceImpl<T> implements Use
                 returnUser.setUserDesc(mUser.getUserDesc());
                 returnUser.setUserBackgroundImage(mUser.getUserBackgroundImage());
 
-
-//				returnUser.setFansCount(mUser.getFansCount());
-//				returnUser.setFollowCount(mUser.getFollowCount());
-//				returnUser.setLikeCount(mUser.getLikeCount());
-
                 System.out.println("4----------"+user.getB_Id());
             }else{
                 throw new Exception("102");
@@ -379,36 +327,7 @@ public class UserService<T extends BBUser> extends ServiceImpl<T> implements Use
         return returnUser;
     }
 
-    @Override
-	public T getAllUserInfo(T user) throws Exception{
-		T returnUser = null;
-		try {
 //
-//			Query query = this.getDao().createQuery("from "+user.getClass().getName()+" u where u.b_Id = :b_Id").setCacheMode(CacheMode.IGNORE);
-//			query.setParameter("b_Id", user.getB_Id());
-//			List<T> list = query.list();
-//			System.out.println("2----------");
-//			if ( list.size() > 0) {
-
-			System.out.println("------"+user.getB_Id()+"----"+user.getBbToken().getB_tokenString());
-				T mUser =  this.getUserWithToken(user);
-				returnUser = mUser;
-//				returnUser.setFansCount(mUser.getFans().size());
-//				returnUser.setVideoCount(mUser.getVideos().size());
-//				returnUser.setFollowCount(mUser.getFollows().size());
-//				returnUser.setLikeCount(mUser.getLikeCount());
-
-
-//			}else{
-//				throw new Exception("102");
-//			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			throw e;
-		}
-		return returnUser;
-	}
 
 	@Override
 	public boolean updateUserInfo(T user) throws Exception {
@@ -426,7 +345,7 @@ public class UserService<T extends BBUser> extends ServiceImpl<T> implements Use
 	@Override
 	public boolean updateUserSingleInfo(T user, String propertyKey,
 			String propertyValue) throws Exception {
-		// TODO Auto-generated method stub
+		boolean isDone = false;
 		T returnUser = null;
 		//设置密码有两种一种是用手机号重新设置密码，一种是用用token设置密码
 		//用手机号重置密码
@@ -436,23 +355,12 @@ public class UserService<T extends BBUser> extends ServiceImpl<T> implements Use
 				if (propertyKey.equals("password")){
 					if (this.checkUserIdExitWithPhoneNumber(user.getPhoneNumber())) {
 						//修改密码
-						this.getDao().createQuery("update " + user.getClass().getName() + " u set u." + propertyKey + " = :propertyValue where u.phoneNumber = :phoneNumber").setParameter("propertyValue", MD5Util.calc(propertyValue)).setParameter("phoneNumber", user.getPhoneNumber()).executeUpdate();
-						//获取用户，修改Token
-						Query query = this.getDao().createQuery("from BBVideoUser as u where u.phoneNumber = :phoneNumber");
-						query.setParameter("phoneNumber", user.getPhoneNumber());
-						List list = query.list();
-						if (list.size() > 0) {
-							returnUser = (T) list.get(0);
-						} else {
-							throw new Exception("102");
+						int count = this.getDao().createQuery("update " + user.getClass().getName() + " u set u." + propertyKey + " = :propertyValue and jwtVersion = jwtVersion + 1 where u.phoneNumber = :phoneNumber").setParameter("propertyValue", MD5Util.calc(propertyValue)).setParameter("phoneNumber", user.getPhoneNumber()).executeUpdate();
+						if(count > 0){
+							isDone = true;
+						}else{
+							isDone = false;
 						}
-						String tokenString = new JWTUntil().generateToken(user.getB_Id() + MD5Util.calc(propertyValue));
-						int reslut = this.getDao().createQuery("update BBToken t set t.b_tokenString = :b_tokenString where t.b_Id = :b_Id").setParameter("b_Id", returnUser.getBbToken().getB_Id()).setParameter("b_tokenString", tokenString).executeUpdate();
-						if (reslut == 0) {
-							throw new Exception("400");
-						}
-						returnUser.getBbToken().setB_tokenString(tokenString);
-						return  true;
 
 					} else {
 						throw new Exception("102");
@@ -466,30 +374,18 @@ public class UserService<T extends BBUser> extends ServiceImpl<T> implements Use
 		//用token修改信息
 		else {
 			try {
-
+				int count = 0;
 				if ( propertyKey.equals("password")) {
-					this.getDao().createQuery("update "+user.getClass().getName()+" u set u."+propertyKey+" = :propertyValue where u.b_Id = :b_Id").setParameter("propertyValue", MD5Util.calc(propertyValue)).setParameter("b_Id", user.getB_Id()).executeUpdate();
-
-					String tokenString = new JWTUntil().generateToken(user.getB_Id()+MD5Util.calc(propertyValue));
-					this.getDao().createQuery("update BBToken t set t.b_tokenString = :b_tokenString where t.b_Id = :b_Id").setParameter("b_Id",returnUser.getBbToken().getB_Id()).setParameter("b_tokenString", tokenString).executeUpdate();
-					returnUser.getBbToken().setB_tokenString(tokenString);
+					count = this.getDao().createQuery("update "+user.getClass().getName()+" u set u."+propertyKey+" = :propertyValue and jwtVersion = jwtVersion + 1 where u.b_Id = :b_Id").setParameter("propertyValue", MD5Util.calc(propertyValue)).setParameter("b_Id", user.getB_Id()).executeUpdate();
 				}else{
-					this.getDao().createQuery("update "+user.getClass().getName()+" u set u."+propertyKey+" = :propertyValue where u.b_Id = :b_Id").setParameter("propertyValue", propertyValue).setParameter("b_Id", user.getB_Id()).executeUpdate();
+					count = this.getDao().createQuery("update "+user.getClass().getName()+" u set u."+propertyKey+" = :propertyValue where u.b_Id = :b_Id").setParameter("propertyValue", propertyValue).setParameter("b_Id", user.getB_Id()).executeUpdate();
 
 				}
-//			//更换名字或头像的时候应该重新获取融云的token
-//			if ( propertyKey.equals("name") || propertyKey.equals("avatarImage")) {
-//				RongCloud rongCloud = RongCloud.getInstance(RongYunTool.RONGYUNKEY,
-//						RongYunTool.RONGYUNPASSWORD);
-//				// 获取 Token  ,把 token 存到用户信息中，实现单点登录
-//				TokenReslut userGetTokenResult = rongCloud.user.getToken(
-//						returnUser.getB_Id(), returnUser.getName(), returnUser.getAvatarImage());
-//				Map map = JsonTool.parseJsonData(userGetTokenResult.toString());
-//				String chatValidateString = (String) map.get("token");
-//				this.getDao().createQuery("update BBToken t set t.chat_tokenString = :chat_tokenString where t.b_Id = :b_Id").setParameter("b_Id",returnUser.getBbToken().getB_Id()).setParameter("chat_tokenString", chatValidateString).executeUpdate();
-//			}
-
-               return  true;
+				if(count > 0){
+					isDone = true;
+				}else{
+					isDone = false;
+				}
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
@@ -497,7 +393,32 @@ public class UserService<T extends BBUser> extends ServiceImpl<T> implements Use
 			}
 		}
 
-		return false;
+		//如果修改成功且是修改密码的情况下更新jwt的版本号
+		if(isDone){
+			if(propertyKey.equals("password")){
+				BBUser resultUser = null;
+				Query query;
+				if(user.getB_Id().isEmpty() || user.getB_Id() == null){
+					query =  this.getDao().createQuery("from BBVideoUser u where u.phoneNumber = :phoneNumber");
+					query.setParameter("phoneNumber",user.getPhoneNumber());
+				}
+				else{
+					query = this.getDao().createQuery("from BBVideoUser u where u.b_Id = :b_Id");
+					query.setParameter("b_Id",user.getB_Id());
+				}
+				List userList = query.list();
+				if (userList.size() > 0){
+					resultUser = (BBUser) userList.get(0);
+					//更新版本
+					redisService.set(resultUser.getB_Id(),resultUser.getJwtVersion());
+				}
+
+			}
+
+
+		}
+
+		return isDone;
 	}
 
 	@Override

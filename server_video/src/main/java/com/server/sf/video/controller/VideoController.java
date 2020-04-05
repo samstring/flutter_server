@@ -1,7 +1,5 @@
 package com.server.sf.video.controller;
 
-import com.server.sf.video.common.model.BBUserDTO;
-import com.server.sf.video.common.tool.OauthConstantTool;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;

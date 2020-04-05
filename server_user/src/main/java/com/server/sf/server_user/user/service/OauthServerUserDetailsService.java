@@ -45,16 +45,16 @@ public class OauthServerUserDetailsService implements UserDetailsService {
             return  null;
         }
         //----假数据---
-        BBAuthority authority1 = new BBAuthority();
-        authority1.setName(OauthConstantTool.Authority_user);
-
-        BBRole role1 = new BBRole();
-        role1.setName(OauthConstantTool.Role_User);
-        role1.setAuthorises(new HashSet<>());
-        role1.getAuthorises().add(authority1);
-
-        user.setRoles(new HashSet<>());
-        user.getRoles().add(role1);
+//        BBAuthority authority1 = new BBAuthority();
+//        authority1.setName(OauthConstantTool.Authority_user);
+//
+//        BBRole role1 = new BBRole();
+//        role1.setName(OauthConstantTool.Role_User);
+//        role1.setAuthorises(new HashSet<>());
+//        role1.getAuthorises().add(authority1);
+//
+//        user.setRoles(new HashSet<>());
+//        user.getRoles().add(role1);
 
         //----假数据---
 
@@ -63,6 +63,7 @@ public class OauthServerUserDetailsService implements UserDetailsService {
         userDTO.setUserId(user.getB_Id());
         userDTO.setUserName(user.getName());
         userDTO.setUserPhone(user.getPhoneNumber());
+        userDTO.setJwtVersion(user.getJwtVersion());
 
         //遍历角色获取权限
         List<BBAuthority> authoritys = new ArrayList<>();

@@ -16,7 +16,7 @@ public class BBRole extends BaseBean {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER,targetEntity = BBRole.class)
+    @ManyToMany(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER,targetEntity = BBAuthority.class)
     private Set<BBAuthority> authorises;
 
     public void setName(String name) {

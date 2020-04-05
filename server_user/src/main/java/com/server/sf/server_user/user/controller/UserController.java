@@ -1,5 +1,6 @@
 package com.server.sf.server_user.user.controller;
 
+import com.server.sf.server_user.common.model.ResultMapConstant;
 import com.server.sf.server_user.user.model.BBToken;
 import com.server.sf.server_user.user.model.BBUser;
 import com.server.sf.server_user.user.service.UserService;
@@ -77,7 +78,27 @@ public class UserController {
 
     @RequestMapping("/user/login")
     public Map login(String phoneNumber,String password,String loginMode) throws Exception {
+
         Map map = new HashMap();
+
+        if(loginMode == null || loginMode.equals("")){
+            map.put(ResultMapConstant.ResultCode,  ResultMapConstant.ResultCodeError);
+            map.put(ResultMapConstant.Message, "loginMode不能为空");
+            map.put(ResultMapConstant.Result, "");
+            return map;
+        }
+        if(phoneNumber == null || phoneNumber.equals("")){
+            map.put(ResultMapConstant.ResultCode,  ResultMapConstant.ResultCodeError);
+            map.put(ResultMapConstant.Message,  "phoneNumber不能为空");
+            map.put(ResultMapConstant.Result, "");
+            return map;
+        }
+        if(password == null || password.equals("")){
+            map.put(ResultMapConstant.ResultCode,  ResultMapConstant.ResultCodeError);
+            map.put(ResultMapConstant.Message,  "password不能为空");
+            map.put(ResultMapConstant.Result, "");
+            return map;
+        }
         BBUser user = new BBUser();
         user.setPhoneNumber(phoneNumber);
         user.setPassword(password);
@@ -116,56 +137,66 @@ public class UserController {
         return  map;
     }
 
-//    public String updateUserAvatar(String userId,String userToken,){
-//        try {
-//
-//            BBVideoUser user = userService.getUserWithToken(this.getUser());
-//
-//            if (user != null){
-//                String fileUrl = "/image/user_avatar/";
-//                DateFormat df=new SimpleDateFormat("yyyy-MM-dd-HH-mm-");
-//                String dateString=df.format(new Date());
-//                String fileName = user.getB_Id()+"_"+dateString+(int)(Math.random()*10000)+".jpg";
-//                String realPath= ServletActionContext.getServletContext().getRealPath("/");
-////                UpLoadTool.base64ToImage(propertyValue,realPath+fileUrl,fileName);
-//
-//                if (file != null) {
-//                    File savefile = new File(new File(realPath+fileUrl), fileName);
-//                    if (!savefile.getParentFile().exists())
-//                        savefile.getParentFile().mkdirs();
-//                    FileUtils.copyFile(file, savefile);
-//                    ActionContext.getContext().put("message", "文件上传成功");
-//                }
-//
-//
-//                boolean isSuc = userService.updateUserSingleInfo(user,"avatarImage", NetAdressTool.getServiceRootAdress()+fileUrl+fileName);
-//                if (isSuc){
-//                    user = userService.getUserWithToken(this.getUser());
-//                }
-//                getResponseJsonMap().put("resultCode","200");
-//                this.getResponseJsonMap().put("result",user);
-//                getResponseJsonMap().put("error", null);
-//            }else{
-//
-//            }
-//
-//
-//
-//        } catch(Exception e) {
-//            getResponseJsonMap().put("resultCode","-1");
-//            this.getResponseJsonMap().put("result",null);
-//            getResponseJsonMap().put("error", "登陆已失效");
-//        }
-//        return JSONRESULT;
-//    }
+    /*获取用户信息*/
+    @RequestMapping("/getUserInfo")
+    public Map getUserInfo(String userId) throws Exception{
+        Map map = new HashMap();
+        if(userId == null || userId.equals("")){
+            map.put(ResultMapConstant.ResultCode,  ResultMapConstant.ResultCodeError);
+            map.put(ResultMapConstant.Message, "用户ID不能为空");
+            map.put(ResultMapConstant.Result, "");
+        }
+
+        BBUser user = new BBUser();
+        user.setB_Id(userId);
+        try {
+            BBUser result = userService.getBasicUserInfoById(user);
+            map.put(ResultMapConstant.ResultCode,  ResultMapConstant.ResultCodeDone);
+            map.put(ResultMapConstant.Message, "");
+            map.put(ResultMapConstant.Result, result);
+        }catch (Exception e){
+            map.put(ResultMapConstant.ResultCode,  ResultMapConstant.ResultCodeError);
+            map.put(ResultMapConstant.Message, e.toString());
+            map.put(ResultMapConstant.Result, "");
+        }
+
+        return  map;
+
+    }
+
+
+    //根据字段更新用户信息
+    @RequestMapping("'/updateUserInfo'")
+    public Map updateUserInfo(String userId,String propertyKey,String propertyValue)throws Exception{
+        Map returnMap = new HashMap();
+        BBUser user = new BBUser();
+        user.setB_Id(userId);
+        try {
+
+            boolean isSuc =  userService.updateUserSingleInfo(user,propertyKey,propertyValue);
+            if(isSuc){
+                returnMap.put(ResultMapConstant.ResultCode,ResultMapConstant.ResultCodeDone);
+                returnMap.put(ResultMapConstant.Result,"");
+                returnMap.put(ResultMapConstant.Message,"修改成功");
+            }else{
+                returnMap.put(ResultMapConstant.ResultCode,ResultMapConstant.ResultCodeError);
+                returnMap.put(ResultMapConstant.Result,"");
+                returnMap.put(ResultMapConstant.Message,"修改失败");
+            }
+
+        } catch (Exception e) {
+            returnMap.put(ResultMapConstant.ResultCode,ResultMapConstant.ResultCodeError);
+            returnMap.put(ResultMapConstant.Result,"");
+            returnMap.put(ResultMapConstant.Message,e.toString());
+            // TODO: handle exception
+            throw e;
+        }
+        return returnMap;
+    }
+
 
     @RequestMapping(value = "/multiImport", method = RequestMethod.POST)
-    public Map<String, Object> multiImport(String userId,String userToken,@RequestParam("uploadFile") MultipartFile[] uploadFile) throws IOException {
-
-
-
-
-
+    public Map<String, Object> uploadFiles(String userId,String userToken,@RequestParam("uploadFile") MultipartFile[] uploadFile) throws IOException {
 
         Map returnMap = new HashMap();
 
@@ -188,7 +219,7 @@ public class UserController {
             user.setB_Id(userId);
             user.setBbToken(new BBToken());
             user.getBbToken().setB_tokenString(userToken);
-            BBUser userInfo = userService.getUserWithToken(user);
+//            BBUser userInfo = userService.getUserWithToken(user);
 
 
 
@@ -213,11 +244,6 @@ public class UserController {
         }catch (Exception e){
 
         }
-
-
-
-
-
 
         System.out.println(uploadFile.length);
 

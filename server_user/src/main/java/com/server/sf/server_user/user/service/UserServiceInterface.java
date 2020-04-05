@@ -17,8 +17,8 @@ public interface UserServiceInterface <T>{
 //	@Transactional(readOnly = true)
 	public T login(T user, String loginMode) throws Exception;
 	
-//	@Transactional(propagation = Propagation.NOT_SUPPORTED)
-	public T getUserWithToken(T user) throws Exception;
+////	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+//	public T getUserWithToken(T user) throws Exception;
 
 	//更新用户信息
 	public boolean updateUserInfo(T user) throws Exception;
@@ -36,10 +36,6 @@ public interface UserServiceInterface <T>{
 	public T getBasicUserInfoById(T user) throws Exception;
 
     public T getBasicUserInfoByphoneNumber(T user) throws Exception;
-
-
-
-	public T getAllUserInfo(T user) throws Exception;
 
 	//根据条件查询，返回用户列表
 	public List<T> queryUserList(String propertyKey, String propertyValuek, int index, int pageCount) throws  Exception;

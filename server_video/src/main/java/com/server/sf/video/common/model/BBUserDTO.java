@@ -7,4 +7,5 @@ public class BBUserDTO {
     String userId;
     String userName;
     String userPhone;
+    int jwtVersion;
 }

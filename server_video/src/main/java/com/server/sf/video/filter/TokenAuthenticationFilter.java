@@ -41,6 +41,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 //            String principal = jsonObject.getString("principal");
 //            userDTO.setUsername(principal);
             BBUserDTO userDTO = gson.fromJson(jsonMap.get("principal").toString(), BBUserDTO.class);
+
+            //Todo 从jwt获取到版本号与redis中用户的jwt版本号做对比，如果版本号有问题的话则代表jwt无效
+
             //用户权限
             List<String> authoritiesList = gson.fromJson(jsonMap.get("authorities").toString(),List.class);
             String[] authorities = new String[authoritiesList.size()];

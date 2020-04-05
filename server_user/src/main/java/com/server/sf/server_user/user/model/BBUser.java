@@ -64,5 +64,9 @@ public class BBUser  extends BaseBean {
 	@Setter
 	private String password;
 
+	@Getter
+	@Setter
+	private int jwtVersion;
+
 
 }
